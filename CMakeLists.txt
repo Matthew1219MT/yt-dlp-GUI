@@ -8,8 +8,16 @@ qt_standard_project_setup()
 qt_add_executable(yt-dlp-GUI
     WIN32 MACOSX_BUNDLE
     main.cpp
-    mainwindow.cpp
-    mainwindow.h
+
+    model.h
+    model.cpp
+
+    view.h
+    view.cpp
+
+    controller.h
+    controller.cpp
+
     mainwindow.ui
 )
 
