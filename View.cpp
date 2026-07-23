@@ -1,6 +1,8 @@
 #include "view.h"
 #include "ui_mainwindow.h"
 
+#include <QStandardPaths>
+
 View::View(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -10,6 +12,7 @@ View::View(QWidget *parent)
     // Bind each widget from the .ui file to a named handle.
     urlInput           = ui->urlLineEdit;
     dirInput           = ui->dirLineEdit;
+    dirInput->setText(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
 
     downloadButton     = ui->downloadButton;
     addToListButton    = ui->addToListButton;

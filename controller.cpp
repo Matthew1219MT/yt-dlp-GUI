@@ -53,8 +53,8 @@ void Controller::onDownloadClicked()
     // Get download format 
     std::string format = m_view->mp3Radio->isChecked() ? "mp3" : "mp4";
     // Get download directory
-    // std::string dir = m_view->dirInput->text()
-    qDebug() << "[download] clicked, url =" << url << " , format: " << format;
+    std::string dir = m_view->dirInput->text().toStdString();
+    qDebug() << "[download] clicked, url =" << url << " , format: " << format << " , download to: " << dir;
 }
 
 void Controller::onAddToListClicked()
