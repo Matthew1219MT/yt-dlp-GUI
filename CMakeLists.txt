@@ -18,6 +18,9 @@ qt_add_executable(yt-dlp-GUI
     controller.h
     controller.cpp
 
+    ElidedLabel.h
+    ElidedLabel.cpp
+
     mainwindow.ui
 )
 

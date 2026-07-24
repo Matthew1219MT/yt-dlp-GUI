@@ -144,6 +144,9 @@
       <layout class="QVBoxLayout" name="rightLayout">
 
        <item><widget class="QListWidget" name="itemListWidget">
+        <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
         <property name="minimumSize"><size><width>300</width><height>352</height></size></property>
         <property name="maximumSize"><size><width>300</width><height>352</height></size></property>
        </widget></item>

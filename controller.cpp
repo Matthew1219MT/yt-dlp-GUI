@@ -1,6 +1,7 @@
 #include "controller.h"
 #include "view.h"
 #include "model.h"
+#include "ElidedLabel.h"
 
 #include <QDebug>
 #include <string>
@@ -63,27 +64,28 @@ void Controller::onAddToListClicked()
 {
     qDebug() << "[addToList] clicked, url =" << m_view->urlInput->text();
 
+    // Get download source
+    std::string url = m_view->urlInput->text().toStdString();
+    if (url.empty()) { return; }
+
     QListWidget *list = m_view->itemList;
     auto *item = new QListWidgetItem(m_view->itemList);
 
-    // Get download source
-    std::string url = m_view->urlInput->text().toStdString();
     // Get download format 
     std::string format = m_view->mp3Radio->isChecked() ? "mp3" : "mp4";
-    if (url.empty()) { return; }
     std::string label_content = format + " | " + url;
-    auto *label = new QLabel(QString::fromStdString(label_content));
+    auto *label = new ElidedLabel(QString::fromStdString(label_content));
+    
     auto *delBtn = new QPushButton("X");
     delBtn->setFixedWidth(28);
 
     auto *row    = new QWidget;
     auto *lay = new QHBoxLayout(row);
     lay->setContentsMargins(4, 2, 4, 2);
-    lay->addWidget(label);
-    lay->addStretch();
+    lay->addWidget(label, 1);
     lay->addWidget(delBtn);
 
-    item->setSizeHint(row->sizeHint());
+    item->setSizeHint(QSize(0, row->sizeHint().height()));
     m_view->itemList->setItemWidget(item, row);
 
     QObject::connect(delBtn, &QPushButton::clicked, list, [list, item]() {
