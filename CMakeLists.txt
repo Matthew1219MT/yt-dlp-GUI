@@ -7,21 +7,24 @@ qt_standard_project_setup()
 
 qt_add_executable(yt-dlp-GUI
     WIN32 MACOSX_BUNDLE
-    main.cpp
+    src/main.cpp
 
-    model.h
-    model.cpp
+    src/model.h
+    src/model.cpp
 
-    view.h
-    view.cpp
+    src/view.h
+    src/view.cpp
 
-    controller.h
-    controller.cpp
+    src/controller.h
+    src/controller.cpp
 
-    ElidedLabel.h
-    ElidedLabel.cpp
+    src/ElidedLabel.h
+    src/ElidedLabel.cpp
 
-    mainwindow.ui
+    src/downloadmodel.h
+    src/downloadmodel.cpp
+
+    src/mainwindow.ui
 )
 
 target_link_libraries(yt-dlp-GUI
@@ -44,3 +47,8 @@ qt_generate_deploy_app_script(
     NO_UNSUPPORTED_PLATFORM_ERROR
 )
 install(SCRIPT ${deploy_script})
+
+add_custom_command(TARGET yt-dlp-GUI POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_SOURCE_DIR}/yt-dlp/yt-dlp.exe"
+            "$<TARGET_FILE_DIR:yt-dlp-GUI>")
