@@ -116,6 +116,7 @@ void Controller::onListDownloadClicked()
 void Controller::onClearClicked()
 {
     qDebug() << "[clear] clicked";
+    m_view->itemList->clear();
 }
 
 void Controller::onUrlEdited(const QString &text)
