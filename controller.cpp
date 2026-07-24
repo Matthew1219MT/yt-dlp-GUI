@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <string>
 #include <QFileDialog>
+#include <QLabel>
+#include <QHBoxLayout>
 
 Controller::Controller(View *view, Model *model, QObject *parent)
     : QObject(parent), m_view(view), m_model(model)
@@ -60,6 +62,33 @@ void Controller::onDownloadClicked()
 void Controller::onAddToListClicked()
 {
     qDebug() << "[addToList] clicked, url =" << m_view->urlInput->text();
+
+    QListWidget *list = m_view->itemList;
+    auto *item = new QListWidgetItem(m_view->itemList);
+
+    // Get download source
+    std::string url = m_view->urlInput->text().toStdString();
+    // Get download format 
+    std::string format = m_view->mp3Radio->isChecked() ? "mp3" : "mp4";
+    if (url.empty()) { return; }
+    std::string label_content = format + " | " + url;
+    auto *label = new QLabel(QString::fromStdString(label_content));
+    auto *delBtn = new QPushButton("X");
+    delBtn->setFixedWidth(28);
+
+    auto *row    = new QWidget;
+    auto *lay = new QHBoxLayout(row);
+    lay->setContentsMargins(4, 2, 4, 2);
+    lay->addWidget(label);
+    lay->addStretch();
+    lay->addWidget(delBtn);
+
+    item->setSizeHint(row->sizeHint());
+    m_view->itemList->setItemWidget(item, row);
+
+    QObject::connect(delBtn, &QPushButton::clicked, list, [list, item]() {
+        delete list->takeItem(list->row(item));
+    }, Qt::QueuedConnection);
 }
 
 void Controller::onBrowseClicked()
