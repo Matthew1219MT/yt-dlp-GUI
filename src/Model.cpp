@@ -22,3 +22,26 @@ QString Model::download(const std::string &url, const std::string &format, const
     QString output = QString::fromLocal8Bit(proc.readAll());
     return output;
 }
+
+void Model::addTask(const std::string &url, const std::string &format, const std::string& dir)
+{
+    tasks.push_back({url, format, dir});
+}
+
+DownloadTask Model::getTask(const int i)
+{
+    return tasks[i];
+}
+
+void Model::removeTask(const int i)
+{
+    tasks.erase(tasks.begin() + i);
+    for (const auto& t : tasks) {
+        qDebug() << t.url << t.format << t.dir;
+    }
+}
+
+void Model::clearTask()
+{
+    tasks.clear();
+}
