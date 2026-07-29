@@ -14,7 +14,7 @@ public:
     explicit Model(QObject *parent = nullptr);
 
     QStringList urls() const;
-    void download(const std::string &url, const std::string &format, const std::string& dir);
+    QString download(const std::string &url, const std::string &format, const std::string& dir);
 
 signals:
     void changed(); // emitted whenever state changes

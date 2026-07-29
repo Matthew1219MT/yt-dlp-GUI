@@ -9,7 +9,7 @@ Model::Model(QObject *parent)
 {
 }
 
-void Model::download(const std::string &url, const std::string &format, const std::string& dir)
+QString Model::download(const std::string &url, const std::string &format, const std::string& dir)
 {
     qDebug() << "[download]" << "Model download" << url << format;
     const QString exe = QCoreApplication::applicationDirPath() + "/yt-dlp.exe";
@@ -19,6 +19,6 @@ void Model::download(const std::string &url, const std::string &format, const st
     proc.setProcessChannelMode(QProcess::MergedChannels);
     proc.startCommand(cmd);
     proc.waitForFinished(-1);
-    QString::fromLocal8Bit(proc.readAll());
-    qDebug() << QString::fromLocal8Bit(proc.readAll());;
+    QString output = QString::fromLocal8Bit(proc.readAll());
+    return output;
 }

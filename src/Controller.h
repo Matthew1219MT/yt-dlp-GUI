@@ -16,6 +16,7 @@ public:
 
 private slots:
     // --- one slot per interactive widget -------------------------
+    void setUI(const bool flag);
     void onDownloadClicked();
     void onAddToListClicked();
     void onBrowseClicked();

@@ -8,6 +8,8 @@
 #include <QFileDialog>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QCoreApplication>
+#include <QMessageBox>
 
 Controller::Controller(View *view, Model *model, QObject *parent)
     : QObject(parent), m_view(view), m_model(model)
@@ -49,8 +51,23 @@ Controller::Controller(View *view, Model *model, QObject *parent)
 // Stubs. Fill these in one at a time.
 // =================================================================
 
+void Controller::setUI(const bool flag)
+{
+    m_view->urlInput->setEnabled(flag);
+    m_view->dirInput->setEnabled(flag);
+    m_view->browseButton->setEnabled(flag);
+    m_view->downloadButton->setEnabled(flag);
+    m_view->addToListButton->setEnabled(flag);
+    m_view->listDownloadButton->setEnabled(flag);
+    m_view->clearButton->setEnabled(flag);
+    m_view->mp3Radio->setEnabled(flag);
+    m_view->mp4Radio->setEnabled(flag);
+}
+
 void Controller::onDownloadClicked()
 {
+    setUI(false);
+    QCoreApplication::processEvents();
     // Get download source
     std::string url = m_view->urlInput->text().toStdString();
     // Get download format
@@ -58,7 +75,14 @@ void Controller::onDownloadClicked()
     // Get download directory
     std::string dir = m_view->dirInput->text().toStdString();
     qDebug() << "[download] clicked, url =" << url << " , format: " << format << " , download to: " << dir;
-    m_model->download(url, format, dir);
+    QString output = m_model->download(url, format, dir);
+    qDebug() << "[download]" << output; 
+    if (output.contains("[download] 100%", Qt::CaseInsensitive)) {
+        QMessageBox::information(nullptr, "Download Result", "Download successful");
+    } else {
+        QMessageBox::warning(nullptr, "Download Result", output);
+    }
+    setUI(true);
 }
 
 void Controller::onAddToListClicked()
@@ -72,6 +96,7 @@ void Controller::onAddToListClicked()
         return;
     }
 
+    // Create new list item for the list
     QListWidget *list = m_view->itemList;
     auto *item = new QListWidgetItem(m_view->itemList);
 
@@ -126,7 +151,7 @@ void Controller::onClearClicked()
 
 void Controller::onUrlEdited(const QString &text)
 {
-    qDebug() << "[urlInput] ->" << text;
+    //qDebug() << "[urlInput] ->" << text;
 }
 
 void Controller::onDirEdited(const QString &text)

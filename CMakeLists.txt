@@ -21,9 +21,6 @@ qt_add_executable(yt-dlp-GUI
     src/ElidedLabel.h
     src/ElidedLabel.cpp
 
-    src/downloadmodel.h
-    src/downloadmodel.cpp
-
     src/mainwindow.ui
 )
 
