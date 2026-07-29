@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QRadioButton>
 #include <QListWidget>
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -33,6 +34,9 @@ public:
     QPushButton *browseButton = nullptr;
     QPushButton *listDownloadButton = nullptr;
     QPushButton *clearButton = nullptr;
+
+    QLabel *versionLabel = nullptr;
+    QPushButton *updateButton = nullptr;
 
     QRadioButton *mp3Radio = nullptr;
     QRadioButton *mp4Radio = nullptr;

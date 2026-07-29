@@ -19,6 +19,9 @@ View::View(QWidget *parent)
     listDownloadButton = ui->listDownloadButton;
     clearButton = ui->clearButton;
 
+    versionLabel = ui->infoLabel;
+    updateButton = ui->updateButton;
+
     mp3Radio = ui->mp3RadioButton;
     mp4Radio = ui->mp4RadioButton;
 
