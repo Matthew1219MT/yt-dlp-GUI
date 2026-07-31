@@ -24,6 +24,8 @@ public:
     DownloadTask getTask(const int i);
     void removeTask(const int i);
     void clearTask();
+    QString getVersion();
+    QString update();
 signals:
     void changed(); // emitted whenever state changes
 private:

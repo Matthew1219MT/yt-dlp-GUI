@@ -22,6 +22,7 @@ private slots:
     void onBrowseClicked();
     void onListDownloadClicked();
     void onClearClicked();
+    void onUpdateClicked();
 
     void onUrlEdited(const QString &text);
     void onDirEdited(const QString &text);

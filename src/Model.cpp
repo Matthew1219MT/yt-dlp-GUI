@@ -11,10 +11,10 @@ Model::Model(QObject *parent)
 
 QString Model::download(const std::string &url, const std::string &format, const std::string& dir)
 {
-    qDebug() << "[download]" << "Model download" << url << format;
+    qDebug() << "[model]" << "Model download" << url << format;
     const QString exe = QCoreApplication::applicationDirPath() + "/yt-dlp.exe";
     QString cmd = QString("yt-dlp -t %1 -P \"%2\" %3").arg(format, dir, url);
-    qDebug() << "[download]" << cmd;
+    qDebug() << "[model]" << cmd;
     QProcess proc;
     proc.setProcessChannelMode(QProcess::MergedChannels);
     proc.startCommand(cmd);
@@ -44,4 +44,32 @@ void Model::removeTask(const int i)
 void Model::clearTask()
 {
     tasks.clear();
+}
+
+QString Model::getVersion()
+{
+    const QString exe = QCoreApplication::applicationDirPath() + "/yt-dlp.exe";
+    QString cmd = QString("yt-dlp --version");
+    qDebug() << "[model]" << cmd;
+    QProcess proc;
+    proc.setProcessChannelMode(QProcess::MergedChannels);
+    proc.startCommand(cmd);
+    proc.waitForFinished(-1);
+    QString output = QString::fromLocal8Bit(proc.readAll());
+    return output;
+}
+
+QString Model::update()
+{
+    const QString exe = QCoreApplication::applicationDirPath() + "/yt-dlp.exe";
+    QString cmd = QString("yt-dlp --update");
+    qDebug() << "[model]" << cmd;
+    QProcess proc;
+    proc.setProcessChannelMode(QProcess::MergedChannels);
+    proc.startCommand(cmd);
+    proc.waitForFinished(-1);
+    QString output = proc.readAllStandardOutput();
+    QStringList lines = output.split('\n', Qt::SkipEmptyParts);
+    QString lastLine = lines.isEmpty() ? QString() : lines.last();
+    return lastLine;
 }

@@ -109,7 +109,7 @@
          <property name="title"><string>About</string></property>
          <layout class="QVBoxLayout" name="updateGroupLayout" stretch="0,1,0">
           <item><widget class="QLabel" name="infoLabel">
-           <property name="text"><string>TextLabel</string></property>
+           <property name="text"><string>yt-dlp's version: Loading...</string></property>
            <property name="wordWrap"><bool>true</bool></property>
           </widget></item>
 

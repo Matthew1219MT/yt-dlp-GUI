@@ -14,6 +14,9 @@
 Controller::Controller(View *view, Model *model, QObject *parent)
     : QObject(parent), m_view(view), m_model(model)
 {
+    // ---- Get yt-dlp version on load -----------------------------
+    QString version = m_model->getVersion();
+    m_view->versionLabel->setText("yt-dlp's version: " + version);
     // ---- View -> Controller -------------------------------------
     connect(m_view->downloadButton, &QPushButton::clicked,
             this, &Controller::onDownloadClicked);
@@ -29,6 +32,9 @@ Controller::Controller(View *view, Model *model, QObject *parent)
 
     connect(m_view->clearButton, &QPushButton::clicked,
             this, &Controller::onClearClicked);
+
+    connect(m_view->updateButton, &QPushButton::clicked,
+            this, &Controller::onUpdateClicked);
 
     connect(m_view->urlInput, &QLineEdit::textChanged,
             this, &Controller::onUrlEdited);
@@ -62,17 +68,18 @@ void Controller::setUI(const bool flag)
     m_view->clearButton->setEnabled(flag);
     m_view->mp3Radio->setEnabled(flag);
     m_view->mp4Radio->setEnabled(flag);
+    m_view->updateButton->setEnabled(flag);
     for (int i = 0; i < m_view->itemList->count(); ++i) {
         QWidget* rowWidget = m_view->itemList->itemWidget(m_view->itemList->item(i));
         QPushButton* delBtn = rowWidget->findChild<QPushButton*>();
         delBtn->setEnabled(flag);
     }
+    QCoreApplication::processEvents();
 }
 
 void Controller::onDownloadClicked()
 {
     setUI(false);
-    QCoreApplication::processEvents();
     // Get download source
     std::string url = m_view->urlInput->text().toStdString();
     if (url.empty())
@@ -156,7 +163,7 @@ void Controller::onListDownloadClicked()
     int success = 0;
     int failed = 0;
     setUI(false);
-    QCoreApplication::processEvents();
+    
     qDebug() << "[listDownload] clicked";
     // Get download directory
     const std::string dir = m_view->dirInput->text().toStdString();
@@ -216,6 +223,17 @@ void Controller::onClearClicked()
         m_model->clearTask();
         m_view->itemList->clear();
     }
+}
+
+void Controller::onUpdateClicked()
+{
+    setUI(false);
+    qDebug() << "[Controller] Updating yt-dlp...";
+    QString update = m_model->update();
+    QMessageBox::information(nullptr, "Update Result", update);
+    QString version = m_model->getVersion();
+    m_view->versionLabel->setText("yt-dlp's version: " + version);
+    setUI(true);
 }
 
 void Controller::onUrlEdited(const QString &text)
