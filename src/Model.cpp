@@ -56,6 +56,7 @@ QString Model::getVersion()
     proc.startCommand(cmd);
     proc.waitForFinished(-1);
     QString output = QString::fromLocal8Bit(proc.readAll());
+    qDebug() << output;
     return output;
 }
 

@@ -5,6 +5,8 @@ find_package(Qt6 6.11.1 REQUIRED COMPONENTS Core Widgets)
 
 qt_standard_project_setup()
 
+set(CMAKE_AUTORCC ON)
+
 qt_add_executable(yt-dlp-GUI
     WIN32 MACOSX_BUNDLE
     src/main.cpp
@@ -22,6 +24,8 @@ qt_add_executable(yt-dlp-GUI
     src/ElidedLabel.cpp
 
     src/mainwindow.ui
+
+    resources/resources.qrc 
 )
 
 target_link_libraries(yt-dlp-GUI
@@ -49,3 +53,7 @@ add_custom_command(TARGET yt-dlp-GUI POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${CMAKE_SOURCE_DIR}/yt-dlp/yt-dlp.exe"
             "$<TARGET_FILE_DIR:yt-dlp-GUI>")
+
+install(FILES ${CMAKE_SOURCE_DIR}/yt-dlp.exe
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+)

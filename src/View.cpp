@@ -7,6 +7,7 @@ View::View(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowIcon(QIcon(":/icons/app.png"));
 
     // Bind each widget from the .ui file to a named handle.
     urlInput = ui->urlLineEdit;

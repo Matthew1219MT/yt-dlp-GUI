@@ -16,6 +16,10 @@ Controller::Controller(View *view, Model *model, QObject *parent)
 {
     // ---- Get yt-dlp version on load -----------------------------
     QString version = m_model->getVersion();
+    if (version.toStdString().empty()) {
+        QMessageBox::warning(nullptr, "Failure Report", "Cannot find yt-dlp, please make sure you have it in the same folder with this software");
+        setUI(false);
+    }
     m_view->versionLabel->setText("yt-dlp's version: " + version);
     // ---- View -> Controller -------------------------------------
     connect(m_view->downloadButton, &QPushButton::clicked,

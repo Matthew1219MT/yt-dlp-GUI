@@ -91,10 +91,10 @@
           <item>
            <layout class="QHBoxLayout" name="formatRow" stretch="1,1">
             <item><widget class="QRadioButton" name="mp3RadioButton">
-             <property name="text"><string>MP3</string></property>
+             <property name="text"><string>Audio</string></property>
             </widget></item>
             <item><widget class="QRadioButton" name="mp4RadioButton">
-             <property name="text"><string>MP4</string></property>
+             <property name="text"><string>Video</string></property>
              <property name="checked"><bool>true</bool></property>
             </widget></item>
            </layout>
